@@ -7,10 +7,18 @@ import Form from "./components/Form";
 import { nanoid } from "nanoid"; // a small library for generate random id
 
 
+const FILTER_MAP = {
+  All: () => true,
+  Active: (task) => !task.completed,
+  Completed: (task) => task.completed
+} //Three types of filter
+
+const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 
 function App(props) {
   const [tasks, setTasks] = useState(props.tasks); //pass props.tasks into useState() hook
+  const [filter, setFilter] = useState('All');
 
   function toggleTaskCompleted(id){
   const updatedTasks = tasks.map((task) => {
@@ -34,6 +42,17 @@ function App(props) {
     setTasks(remainingTasks);
   }
 
+  function editTask(id, newName){
+    const editedTastlist = tasks.map((task)=>{
+      if(id ===task.id){
+        //
+        return{...task, name: newName}
+      }
+      return task;
+    })
+    setTasks(editedTastlist);
+  }
+
   const tasklist = tasks.map((task) => (
       <Todo 
       id={task.id} 
@@ -42,9 +61,15 @@ function App(props) {
       key = {task.id} //The unique key should be use for rendering every iteration
       toggleTaskCompleted = {toggleTaskCompleted}
       deleteTask = {deleteTask}
+      editTask = {editTask}
       />
       )
   );
+
+  const filterList = FILTER_NAMES.map((name) => (
+    <filterbtn_list key = {name} name = {name}/>
+  ));
+
   const tasksNoun = tasklist.length !== 1 ? 'tasks': 'task';
   const headingText = `${tasklist.length} ${tasksNoun} remaining`; // it count the lenght of taskList
   const filterbtn_list = props.filters.map((filter) =>(
