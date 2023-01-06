@@ -11,14 +11,14 @@ const FILTER_MAP = {
   All: () => true,
   Active: (task) => !task.completed,
   Completed: (task) => task.completed
-} //Three types of filter
+} //Three types of filter: unique name & behavior
 
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 
 function App(props) {
   const [tasks, setTasks] = useState(props.tasks); //pass props.tasks into useState() hook
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState('All'); // hook for storing active filter
 
   function toggleTaskCompleted(id){
   const updatedTasks = tasks.map((task) => {
@@ -53,7 +53,7 @@ function App(props) {
     setTasks(editedTastlist);
   }
 
-  const tasklist = tasks.map((task) => (
+  const tasklist = tasks.filter(FILTER_MAP[filter]).map((task) => (
       <Todo 
       id={task.id} 
       name={task.name} 
@@ -67,17 +67,17 @@ function App(props) {
   );
 
   const filterList = FILTER_NAMES.map((name) => (
-    <filterbtn_list key = {name} name = {name}/>
+    <Show 
+    key = {name} 
+    name = {name}
+    isPressed = {name === filter}
+    setFilter = {setFilter} 
+    /> //Each filter has unique name & behavior
   ));
 
   const tasksNoun = tasklist.length !== 1 ? 'tasks': 'task';
   const headingText = `${tasklist.length} ${tasksNoun} remaining`; // it count the lenght of taskList
-  const filterbtn_list = props.filters.map((filter) =>(
-      <Show 
-      name = {filter.name}
-      pressed = {filter.pressed}/>
-    )  
-  );
+
   //do the iteration defintion before the return
   // by passinf the function to Form, Form can use the function by props
   return (
@@ -87,7 +87,7 @@ function App(props) {
 
       <div className="filters btn-group stack-exception">
 
-        {filterbtn_list}
+      {filterList}
 
       </div>
       <h2 id="list-heading">

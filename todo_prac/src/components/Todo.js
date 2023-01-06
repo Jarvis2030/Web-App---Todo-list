@@ -51,7 +51,7 @@ export default function Todo(props) { // The props will be passed by the para in
           onChange = {() =>
           props.toggleTaskCompleted(props.id)}
           ></input>
-        <label className = "todo-label" htmlfor = {props.id}>
+        <label className = "todo-label" htmlFor = {props.id}>
             {props.name}
         </label>
       </div>
