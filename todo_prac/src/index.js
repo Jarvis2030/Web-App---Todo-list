@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 // Above codes import the asset and file we need to execute the file
 
 const DATA = [
@@ -20,4 +19,3 @@ const FILTER = [
 ReactDOM.render(<App tasks={DATA} filters={FILTER} />, document.getElementById('root')); // first argument shows the compenent to render, App in this case                                                
 // Second argument shows the compnent to be rendered, the elecment with ID = root in the docs.
 // All of this tells React that we want to render our React application with the App component as the root, or first component.
-registerServiceWorker();
